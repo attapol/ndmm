@@ -1,0 +1,35 @@
+{
+	"comment" : "mixing nb with skipgram but with 2 hidden layers. should be better than hlbl",
+	"num_iterations" : 20,
+	"num_repeats" : 10,
+	"reweighting" : true,
+	"sequential" : false,
+	"save_model" : false,
+	"log_to_file" : false,
+	"multiclass" : false,
+	"label_index_list" : [0, 1, 2, 3],
+	"pretraining_max_iterations": 0,
+	"num_hidden_unit_list" : [100, 500, 700, 1000, 1200, 1500],
+	"activation_fn_list" : ["relu"],
+	"learning_rate_list" : [0.001],
+	"lr_smoother_list" : [0.000001],
+	"batch_size_list" : [30, 20, 10, 5],
+	"reweighting_factor_list" : [1],
+	"architecture" : [ 
+		{"type": "input", "parents": [], 
+			"data_dense":"data/skipgram_sum_training_set.csv", 
+			"dev_data_dense":"data/skipgram_sum_test_set.csv",
+			"test_data_dense":"data/skipgram_sum_test_set.csv"},
+		{"type": "hidden", "parents": [1], "num_units": 50},
+		{"type": "hidden", "parents": [2], "num_units": 50},
+		{"type": "output", "parents": [3]},
+		{"type": "input", "parents": [], 
+			"data_dense":"data/nb_layer_training_set.csv", 
+			"dev_data_dense":"data/nb_layer_test_set.csv",
+			"test_data_dense":"data/nb_layer_test_set.csv"},
+		{"type": "hidden_fixed", "parents": [5], "num_units": 10},
+		{"type": "output", "parents": [6]},
+		{"type": "gated_output", "parents": [1, 5], "experts": [4, 7]}
+	]
+}
+
